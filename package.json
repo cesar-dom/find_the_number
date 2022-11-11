@@ -1,0 +1,20 @@
+{
+  "name": "find_the_number",
+  "version": "1.0.0",
+  "description": "find the number game - js tutorial",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cesar-dom/find_the_number.git"
+  },
+  "author": "César Domingos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cesar-dom/find_the_number/issues"
+  },
+  "homepage": "https://github.com/cesar-dom/find_the_number#readme"
+}
