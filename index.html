@@ -39,14 +39,21 @@
       <input type="submit" value="Submit guess" class="guessSubmit">
     </div>
 
-    <div class="resultParas">
+    <div class="resultText">
       <p class="guesses"></p>
       <p class="lastResult"></p>
       <p class="lowOrHi"></p>
     </div>
 
     <script>
-        const randomNum = Math.trunc(Math.random() * 100) + 1
+
+      //TO DO: Next Steps.
+      //1) Refactor to React.
+      //2) Implement Tests;
+      //3) Integrate to Pokedéx to create a Find the Pokémon.
+      //4) Fazer uma API de proxy que busca os dados da api do pokémon e cria as rotas pro front via node/aws
+
+        const randomNum = Math.floor(Math.random() * 100) + 1
         
         const guesses = document.querySelector('.guesses');
         const lastResult = document.querySelector('.lastResult');
@@ -56,40 +63,78 @@
         const guessField = document.querySelector('.guessField');
 
         var guessCount = 1;
-        var botaoReinicio;
+        var restartBtn;
 
         function checkGuess() {
-            var userGuess = guessField.value;
-            if (guessCount === 1) {
-                guesses.textContent = 'Palpites anteriores: ';
-            }
-            guesses.textContent += userGuess + ' ';
+          var userGuess = +guessField.value;
+          if (guessCount === 1) {
+              guesses.textContent = 'Palpites anteriores: ';
+          }
+          guesses.textContent += userGuess + ' ';
 
-            if (userGuess === randomNum) {
-                lastResult.textContent = 'Parabéns! Você acertou!';
-                lastResult.style.backgroundColor = 'green';
-                lowOrHi.textContent = '';
-                configFimDeJogo();
-            } else if (guessCount === 10) {
-                lastResult.textContent = '!!!FIM DE JOGO!!!';
-                lowOrHi.textContent = '';
-                configFimDeJogo();
-            } else {
-                lastResult.textContent = 'Errado!';
-                lastResult.style.backgroundColor = 'red';
-                if(userGuess < randomNum) {
-                lowOrHi.textContent = 'Seu palpite está muito baixo!';
-                } else if(userGuess > randomNum) {
-                lowOrHi.textContent = 'Seu palpite está muito alto!';
-                }
-            }
+          if (userGuess === randomNum) {
+              lastResult.textContent = 'Parabéns! Você acertou!';
+              lastResult.style.backgroundColor = 'green';
+              lowOrHi.textContent = '';
+              setEndGame();
+          } else if (guessCount === 10) {
+              lastResult.textContent = '!!!FIM DE JOGO!!!';
+              lowOrHi.textContent = '';
+              setEndGame();
+          } else {
+              lastResult.textContent = 'Errado!';
+              if(userGuess < randomNum) {
+                lowOrHi.textContent = 'Seu palpite está muito frio! (menor)';
+                lastResult.style.backgroundColor = 'blue';
+              } else if(userGuess > randomNum) {
+                lowOrHi.textContent = 'Seu palpite está muito quente! (maior)';
+                lastResult.style.backgroundColor = 'orange';
+              }
+          }
 
-            guessCount++;
-            guessField.value = '';
-            guessField.focus();
+          guessCount++;
+          guessField.value = '';
+          guessField.focus();
+
+          // GAME MASTER POWER INFO FOR DEBUGGING:
+          console.log('randomNum', randomNum)
+          console.log('guessCount', guessCount)
+          console.log('userGuess', userGuess)
+          console.log('userGuess', typeof userGuess)
+
+          console.log('validation', userGuess === randomNum)
         }
-        checkGuess()
+        guessSubmit.addEventListener('click', checkGuess);
 
+        
+        function setEndGame() {
+          guessField.disabled = true
+          guessSubmit.disabled = true
+          restartBtn = document.createElement('button');
+          restartBtn.textContent = 'Iniciar novo jogo';
+          document.body.appendChild(restartBtn)
+          restartBtn.addEventListener('click', restartGame)
+        }
+        
+        function restartGame() {
+            guessCount = 1;
+
+          var restartText = document.querySelectorAll('.resultText p');
+          for (var i = 0 ; i < restartText.length ; i++) {
+            restartText[i].textContent = '';
+          }
+
+          restartBtn.parentNode.removeChild(restartBtn);
+
+          guessField.disabled = false;
+          guessSubmit.disabled = false;
+          guessField.value = '';
+          guessField.focus();
+
+          lastResult.style.backgroundColor = 'white';
+
+          randomNum = Math.floor(Math.random() * 100) + 1
+        }
     </script>
   </body>
 </html>
