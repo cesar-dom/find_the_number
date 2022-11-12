@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/cesar-dom/find_the_number/issues"
   },
-  "homepage": "https://github.com/cesar-dom/find_the_number#readme"
+  "homepage": "https://github.com/cesar-dom/find_the_number#readme",
+  "dependencies": {
+    "react": "^18.2.0"
+  }
 }
